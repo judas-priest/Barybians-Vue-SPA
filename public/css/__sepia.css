@@ -1,0 +1,32 @@
+:root{
+    --background: #f9f1e4;
+    --foreground: #645445;
+    --primary: #867667;
+    --text: #fafafa;
+    --profile-text: #222;
+    --block-bg: #867667;
+    --block-time: #f9f1e4;
+    --block-unread-bg: #645445;
+    --block-unread-text: #f9f1e4;
+    --block-unread-bg2: #d3d3d3;
+    --block-unread-text2: #867667;
+    --comment-text: #222;
+    --comment-date: #A89889;
+    --msg-bg: #B9A99A;
+    --msg-time: #A89889;
+    --msg-text: #000;
+    --msg-send: #d3d3d3;
+    --hover: #978778;
+    --link: #645445;
+    --danger: #f33;
+    --logo: #ddd;
+    --g: #ddd;
+    --placeholder: #ccc;
+    --scroll: #867667;
+    --nav-link: #c0c0c0ce;
+    --nav-link-hover: #f9f1e4;
+    --nav-link-active: #fff;
+    --card-bg: #A89889;
+    --card-border: #ccc;
+    --card-link: #ccc;
+}

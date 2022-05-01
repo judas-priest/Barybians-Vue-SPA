@@ -1,0 +1,179 @@
+body {
+    background: #343A40;
+    color: #ddd;
+}
+#preloader {
+    background-color: #343A40;
+}
+a:hover {
+    color: #fff;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}
+.last-message, .media-body .name {
+    color: #ddd;
+}
+.yo, #interlocutor-name {
+    color: #aaa;
+}
+#editable-status:hover {
+    background: #434343;
+}
+.dialog-link {
+    color: #fff;
+    border-color: #343A40;
+}
+.dialog-link:hover {
+    border-color: #fff;
+    color: #fff;
+}
+.post, .comments-array {
+    background: #242424;
+}
+.comments,.author>h5:not(.feed-avatar) {
+    background-color: #343a40;
+}
+.comments-line {
+    background-color: #343a40;
+}
+.dialog-item:hover {
+    background: #383838;
+}
+.form-control {
+    border-color: #242424;
+    color: #fff !important;
+    background: #343A40 !important;
+}
+.btn-primary {
+    color: #fff;
+    background: #242424!important;
+    border-color: #848484!important;
+    outline: none;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+}
+.btn-primary:hover {
+    color: #fff;
+    background: #383838!important;
+    border-color: #848484!important;
+}
+.btn-primary:active {
+    color: #fff;
+    background: #242424!important;
+    border-color: #848484!important;
+}
+/*.btn.btn-success.active.focus, .btn.btn-success.active:focus, .btn.btn-success.active:hover, .btn.btn-success:active.focus, .btn.btn-success:active:focus, .btn.btn-success:active:hover {
+color: #fff!important;
+background: #000!important;
+border-color: #848484!important;
+}*/
+
+textarea:focus, #message-input, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .input-send:focus, .uneditable-input:focus {
+    border-color: #848484;
+    box-shadow: none;
+    outline: 0 none;
+}
+.close-btn, .zero-posts {
+    color: #ddd;
+}
+.close-btn:hover {
+    color: #848484;
+}
+.send-message div {
+    background: #343A40;
+}
+.send-message div.container {
+    background: #343A40;
+}
+
+.time_date {
+    color: #848484;
+}
+.reciever-name, .nav-but-prsd {
+    background: #343a40;
+}
+.msg-top {
+    background: #343a40;
+}
+.edited {
+    color: #ddd;
+}
+.edited-mob {
+    color: #ddd;
+}
+.comment-author {
+    color: #ddd;
+}
+.settings {
+    color: #ddd;
+}
+.modal-body, .modal-content {
+    background: #343A40;
+    color: #ddd;
+}
+.btn-default {
+    color: #ddd;
+}
+.sent_msg pre, .received_withd_msg pre {
+    background: #848484;
+}
+#message-input {
+    background-color: #343A40;
+    color: #ddd;
+}
+pre.unread {
+    background-color: #f0f0f0;
+}
+#load_msg {
+    color: #aaa;
+    background: #343A40;
+}
+#load_msg:hover {
+    background: #242424;
+}
+.stickers {
+    background: #242424!important;
+}
+.tabs_title span {
+    background: #343A40;
+    color: #ddd;
+}
+.tabs_title span:not(.active) {
+    cursor: pointer;
+}
+.tabs_title .active {
+    background: #aaa;
+    color: #000;
+}
+.tabs_title .active:after {
+    background: #FFF;
+}
+.tabs_content {
+    background: #aaa!important;
+    border: 2px solid #aaa;
+}
+.users {
+    background: #aaa;
+}
+.user {
+    color: #000;
+}
+.user:hover {
+    background-color: #242424;
+    color: #ddd;
+}
+.unread-dialog, .unread-counter {
+    background-color: #242424;
+    color: #fff;
+}
+.unread-message  {
+    background-color: #848484;
+    color: #ddd;
+}
+#btn_settings, #btn_logout, .btn_delete, .btn_edit, .like, .unlike{
+    fill: #aaa
+}
+.comment-add{
+    color: #aaa
+}

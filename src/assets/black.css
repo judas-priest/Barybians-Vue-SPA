@@ -1,0 +1,204 @@
+@import 'dark.css';
+
+body {
+    background: #000;
+    color: #ddd;
+}
+#preloader {
+    background-color: #000;
+}
+a:hover {
+    color: #fff;
+}
+.bg-dark, .notificationz-title {
+    background-color: #222!important;
+}
+.last-message, .media-body .name {
+    color: #ddd;
+}
+.yo, #interlocutor-name, .scroll, #scroll {
+    color: #848484;
+}
+#editable-status:hover {
+    background: #434343;
+}
+.dialog-link {
+    color: #fff!important;
+    border-color: #000!important;
+}
+.dialog-link:hover {
+    border-color: #fff!important;
+    color: #fff;
+}
+.post, .comments-array {
+    background-color: #181818;
+}
+.comments,.author>h5:not(.feed-avatar) {
+    background-color: #000;
+}
+.comments-line {
+    background-color: #000;
+}
+.dialog-item:hover {
+    background: #383838;
+}
+.form-control {
+    border-color: #434343;
+    color: #fff !important;
+    background: #000 !important;
+}
+.btn-primary {
+    color: #fff;
+    background: #000!important;
+    border-color: #fff!important;
+    outline: none;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+}
+.btn-primary:hover {
+    color: #fff;
+    background: #222!important;
+    border-color: #fff!important;
+}
+.btn-primary:active {
+    color: #fff;
+    background: #444!important;
+    border-color: #fff!important;
+}
+/*
+.btn.btn-success.active.focus, .btn.btn-success.active:focus, .btn.btn-success.active:hover, .btn.btn-success:active.focus, .btn.btn-success:active:focus, .btn.btn-success:active:hover {
+color: #fff!important;
+background: #181818!important;
+border-color: #fff!important;
+}*/
+
+textarea:focus, #message-input, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .input-send:focus, .uneditable-input:focus {
+    border-color: #ddd;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #848484;
+    outline: 0 none;
+}
+.close-btn {
+    color: #fff;
+}
+.close-btn:hover {
+    color: #848484;
+}
+.send-message div {
+    background: #252525;
+}
+.send-message div.container {
+    background: #252525;
+}
+
+.time_date {
+    color: #747474;
+}
+.reciever-name, .clr {
+    background: #222;
+}
+.msg-top {
+    background: #222;
+}
+.edited {
+    color: #ddd;
+}
+.edited-mob {
+    color: #ddd;
+}
+.comment-author {
+    color: #ddd;
+}
+.settings {
+    color: #ddd;
+}
+.modal-body, .modal-content {
+    background: #343a40;
+    color: #ddd;
+}
+.btn-default {
+    color: #ddd;
+}
+a.morelink {
+    color: #ddd;
+}
+.nav-but-prsd {
+    background-color: #666;
+}
+.nav-but-img {
+    filter: invert(100%);
+}
+.nav-but-img-prsd {
+    filter: invert(0%);
+}
+.like>.heart>path {
+    fill: #ddd;
+}
+pre.unread {
+    background-color: #f0f0f0;
+}
+.dialog-item:hover * {
+    color: #fff;
+}
+.incoming_msg:hover *>.time_date, .outgoing_msg:hover *>.time_date {
+    color: #fff;
+}
+#load_msg {
+    background: #222;
+    color: #747474;
+}
+#load_msg:hover {
+    background: #383838;
+    color: #fff;
+}
+.stickers {
+    background: #222!important;
+}
+.tabs_title span {
+    background: #383838;
+    color: #ddd;
+}
+.tabs_title span:not(.active) {
+    cursor: pointer;
+}
+.tabs_title .active {
+    background: #747474;
+    color: #000;
+}
+.tabs_title .active:after {
+    background: #FFF;
+}
+.tabs_content {
+    background: #747474!important;
+    border: 2px solid #747474;
+}
+.users {
+    background: #747474;
+}
+.user {
+    color: #000;
+}
+.userAuthor {
+    color: #ddd!important;
+}
+.user:hover {
+    background-color: #242424;
+    color: #ddd;
+}
+.unread-dialog, .unread-counter {
+    background-color: #848484;
+    color: #000;
+}
+.unread-message {
+    background-color: #444;
+    color: #ddd;
+}
+.outgoing_unread {
+    background-color: #444;
+}
+tr{
+    color: #fff;
+}
+.table-striped>tbody>tr:nth-of-type(odd){
+    color:#aaa;
+    --bs-table-accent-bg:#222;
+}

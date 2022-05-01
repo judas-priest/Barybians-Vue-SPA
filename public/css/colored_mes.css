@@ -1,0 +1,6 @@
+.incoming_msg .msg {
+  background-color: #77cc77;
+}
+.outgoing_msg .msg {
+  background-color: #7c94fc;
+}
