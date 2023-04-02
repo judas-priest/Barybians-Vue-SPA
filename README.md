@@ -1,24 +1,21 @@
-# barybians
+# Single Page Appliaction for Barybians social networking site
 
-## Project setup
+## Usage
+
+### Install dependencies
+
 ```
-npm install
+yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development at localhost:8080
+
 ```
-npm run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
 ```
-npm run lint
+yarn run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
