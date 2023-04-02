@@ -25,12 +25,11 @@ export default {
       if (val === null) return
       const text = val.text ?? ''
       const comment = new URLSearchParams({
-        postId: this.postId,
         text: text
       })
       this.axios({
           method: 'post',
-          url: '/comments',
+          url: `/posts/${this.postId}/comments`,
           data: comment,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,7 +38,8 @@ export default {
           },
         })
         .then((res) => {
-          if (res) this.$emit('add', res)
+          if (res) this.emitter.emit(`comment-add__${this.postId}`, res.data)
+          
         })
         .catch(() => {
           //console.log(res);

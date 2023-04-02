@@ -1,7 +1,7 @@
 <template>
   <img class="min-photo" v-bind:class="{
         userOnline: online(lastVisit),
-      }" :src="`${avatarPath}mid/${photo}`" :data-id="userId" :onerror="imageErrorAvatar" alt="user_avatar" />
+      }" :src="photo" :data-id="userId" :onerror="imageErrorAvatar" alt="user_avatar" />
 </template>
 
 <script>

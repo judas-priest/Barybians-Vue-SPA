@@ -25,7 +25,7 @@
           if (canvas) {
             canvas.toBlob((blob) => {
               const body = new FormData()
-              body.append('photo', blob)
+              body.append('image', blob)
               this.axios({
                   method: 'post',
                   url: '/account/photo',

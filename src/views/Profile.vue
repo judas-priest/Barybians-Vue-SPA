@@ -3,7 +3,7 @@
     <div v-if="$store.state.mobile" id="last_visit">
       <span v-if="onlineStatus" id="online_status">Онлайн</span>
       <span v-else>{{
-                        (user.sex === 0 ? 'Заходил ' : 'Заходила ') + timeName(user.ulastVisit)
+                        (user.sex === 'male' ? 'Заходил ' : 'Заходила ') + timeName(user.lastVisit)
                       }}</span>
     </div>
     <div class="row">
@@ -13,14 +13,14 @@
           <div v-if="profileView" @click="profileView = false" class="modal modal-backdrop">
             <div class="modal-content">
               <img id="photo__full" class="pointer" alt="profilePhotoPreview" @click="profileUrl" v-touch="swipe" :onerror="imageErrorAvatar" :src="this.photo" />
-              <button v-if="user.id === myId" id="change-avatar" class="btn btn-secondary" @click="changeAvatar">
+              <button v-if="user.userId === myId" id="change-avatar" class="btn btn-secondary" @click="changeAvatar">
                                 Заменить фотографию
                               </button>
             </div>
           </div>
         </transition>
-        <router-link v-if="user.id != myId" id="dialog-link" :to="!$store.state.edit ? `/messages/id${user.id}` : ''">Открыть диалог</router-link>
-        <router-link v-if="user.id != myId" id="dialog-link-mob" :to="!$store.state.edit ? `/messages/id${user.id}` : ''">
+        <router-link v-if="user.userId != myId" id="dialog-link" :to="!$store.state.edit ? `/messages/id${user.userId}` : ''">Открыть диалог</router-link>
+        <router-link v-if="user.userId != myId" id="dialog-link-mob" :to="!$store.state.edit ? `/messages/id${user.userId}` : ''">
           <MessageButton />
         </router-link>
       </div>
@@ -30,11 +30,11 @@
           {{ user.firstName }} {{ user.lastName }}
           <span v-if="user.roleId === 1" id="verified" class="verified-sym-green" data-toggle="tooltip" title="Администратор сайта" ref="verified">
                             <span id="check">✓</span>
-          <router-link v-if="user.id === 1" id="love" :to="!$store.state.edit ? '/profile/id3' : ''">❤️</router-link>
+          <router-link v-if="user.userId === 1" id="love" :to="!$store.state.edit ? '/profile/id3' : ''">❤️</router-link>
           </span>
           <span v-if="user.roleId === 2" id="verified" class="verified-sym-blue" data-toggle="tooltip" title="Настоящий барыбинец">
                             <span id="check">✓</span>
-          <router-link v-if="user.id === 3" id="love" :to="!$store.state.edit ? '/profile/id1' : ''">❤️</router-link>
+          <router-link v-if="user.userId === 3" id="love" :to="!$store.state.edit ? '/profile/id1' : ''">❤️</router-link>
           </span>
           <span v-if="user.roleId === 3" id="verified" class="verified-sym-yellow" data-toggle="tooltip" title="Настоящий барыбинец">
                             <span id="check">✓</span>
@@ -47,8 +47,8 @@
           <span v-else-if="DaysToDOB === 1" id="bday">(Послезавтра ДР)</span>
         </div>
         <div id="status_change" v-click-outside="StatusEditModal">
-          <div @click="StatusEdit" contenteditable="false" id="status" class="col-10 transition" :class="[user.id === myId ? 'status_my' : '']" placeholder="Введите статус..." ref="status" v-html="status" @keydown.enter.exact.prevent="StatusUpdate" @keydown.enter.shift.exact.prevent="true"></div>
-          <div v-if="user.id === myId" v-show="statusEdit" id="status_save" @click="StatusUpdate">
+          <div @click="StatusEdit" contenteditable="false" id="status" class="col-10 transition" :class="[user.userId === myId ? 'status_my' : '']" placeholder="Введите статус..." ref="status" v-html="status" @keydown.enter.exact.prevent="StatusUpdate" @keydown.enter.shift.exact.prevent="true"></div>
+          <div v-if="user.userId === myId" v-show="statusEdit" id="status_save" @click="StatusUpdate">
             <SendBtn height="30" width="30" />
           </div>
         </div>
@@ -56,23 +56,13 @@
       <div v-if="!$store.state.mobile" class="col-2" id="last_visit">
         <span v-if="onlineStatus" id="online_status">Онлайн</span>
         <span v-else>{{
-                          (user.sex === 0 ? 'Заходил ' : 'Заходила ') +
-                          timeName(user.ulastVisit)
+                          (user.sex === 'male' ? 'Заходил ' : 'Заходила ') +
+                          timeName(user.lastVisit)
                         }}</span>
       </div>
     </div>
-    <PostAdd :user="user" />
-    <span v-if="user.posts && Object.keys(user.posts).length === 0">
-                      <div v-if="user.id === myId" class="zero-posts">
-                        Вы пока ничего не написали...
-                      </div>
-                      <div v-else class="zero-posts">
-                        {{ user.firstName }} пока ничего не написал<span v-if="user.sex === 1"
-                          >а</span
-                        >...
-                      </div>
-                    </span>
-    <Posts v-cloak :posts="posts" ref="posts" />
+    <PostAdd v-cloak :user="user" />
+    <Posts v-cloak v-if="user" :user="user" :myId="myId" :key="user.userId"/>
   </div>
 </template>
 
@@ -98,9 +88,7 @@
         onlineStatus: false,
         active: true,
         statusEdit: false,
-        postsLoad: false,
         profileView: false,
-        observer: null,
       }
     },
     components: {
@@ -121,7 +109,7 @@
       },
       changeImg() {
         //console.log("changeImg");
-        this.photo = this.photo.replace('mid/', '')
+        this.photo = this.user.photo 
       },
       changeAvatar() {
         const settings = {
@@ -137,7 +125,7 @@
         window.open(this.photo, '_blank')
       },
       StatusEdit() {
-        if (this.$store.state.myId === this.user.id && !this.$store.state.edit) {
+        if (this.$store.state.myId === this.user.userId && !this.$store.state.edit) {
           this.$store.state.edit = true
           this.statusEdit = true
           this.$refs.status.contentEditable = true
@@ -150,7 +138,7 @@
           text: this.$refs.status.textContent,
         })
         this.axios({
-            method: 'put',
+            method: 'post',
             url: '/account/status',
             data: status,
             headers: {
@@ -200,10 +188,9 @@
       fetchUser(id) {
         this.emitter.emit('loaded', false)
         this.axios.get(`/users/${id}`).then((res) => {
-          this.photo = this.avatarPath + 'mid/' + res.data.photo
+          this.photo = res.data.photo256
           document.title = `${res.data.firstName} ${res.data.lastName} — Барыбинцы`
           this.user = res.data
-          this.posts = res.data.posts
           this.userId = id
           this.$nextTick(() => {
             this.$store.state.loaded.content = true
@@ -248,106 +235,25 @@
       //     )
       //   }
       // },
-      async postObserver() {
-        // console.log('observer started!!!')
-        await this.$nextTick()
-        this.observer = new IntersectionObserver(async(entries, observer) => {
-          entries.forEach(async(entry) => {
-            if (entry.isIntersecting) {
-              await this.postsPagination()
-              observer.unobserve(entry.target)
-            }
-          })
-        })
-        if (
-          this.posts &&
-          this.$refs.posts &&
-          this.$refs.posts.$el.lastChild.previousElementSibling
-          .previousElementSibling
-        ) {
-          this.observer.observe(
-            this.$refs.posts.$el.lastChild.previousElementSibling
-            .previousElementSibling
-          )
-        }
-      },
-      postsWheel() {
-        const bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight
-        if (
-          document.documentElement.offsetHeight - bottomOfWindow <= 700 &&
-          !this.postsLoad
-        ) {
-          this.postsPagination()
-        }
-      },
-      postsPagination() {
-        this.postsLoad = true
-        this.axios
-          .get(`/users/${this.userId}/posts?start=${this.posts.length}&end=10`)
-          .then((res) => {
-            this.posts.push(...res.data)
-            this.postsLoad = false
-          })
-      },
+
       escapeHandler(e) {
         if (e.key === 'Escape' && !this.$store.state.modal.toggle)
           this.profileView = false
       },
       OnMount() {
         // console.log('mounted')
-        this.emitter.on('posts-loaded', () => {
-          this.postObserver()
-        })
-  
         document.addEventListener('keydown', this.escapeHandler)
         this.emitter.on('modal-cancel-cropper', () => {
           this.$store.state.modal.toggle = false
         })
   
         this.emitter.on('photo-update', (photo) => {
-          if (photo && this.id == this.myId)
-            this.photo = `${this.avatarPath}mid/${photo}`
-        })
-        /*
-         * Post Actions
-         */
-        this.emitter.on('post-add', (post) => {
-          if (!this.posts.includes(post)) {
-            this.user.postsCount++
-              this.posts.unshift(post)
+          console.log(photo);
+          if (photo && this.userId == this.myId){
+            this.photo = photo
+            this.user.photo = photo
           }
-        })
-  
-        this.emitter.on('post-update', (post) => {
-          for (var obj in this.posts) {
-            if (this.posts[obj].id === post.id) this.posts.splice(obj, 1, post)
-          }
-        })
-  
-        this.emitter.on('post-delete', (postId) => {
-          for (var obj in this.posts) {
-            if (this.posts[obj].id === postId) {
-              this.user.postsCount--
-                this.posts.splice(obj, 1)
-            }
-          }
-        })
-        this.emitter.on('comment-delete', ({
-          commentId,
-          postId
-        }) => {
-          for (var post in this.posts) {
-            if (this.posts[post].id === postId) {
-              for (var obj in this.posts[post].comments) {
-                if (this.posts[post].comments[obj].id === commentId) {
-                  //console.log(this.post.comments[obj]);
-                  this.posts[post].commentsCount--
-                    this.posts[post].comments.splice(obj, 1)
-                }
-              }
-            }
-          }
+            
         })
   
         //
@@ -365,24 +271,12 @@
         document.removeEventListener('keydown', this.escapeHandler)
         this.emitter.off('modal-cancel-cropper')
         this.emitter.off('photo-update')
-        this.emitter.off('post-add')
-        this.emitter.off('post-update')
-        this.emitter.off('post-delete')
+
         this.emitter.off('comment-delete')
         this.emitter.off('modal-cancel-status_edit')
         this.emitter.off('modal-ok-status_edit')
         this.emitter.off('posts-loaded')
-        if (
-          this.observer !== null &&
-          this.$refs.posts &&
-          this.$refs.posts.$el.lastChild.previousElementSibling &&
-          this.$refs.posts.$el.lastChild.previousElementSibling
-          .previousElementSibling
-        )
-          this.observer.unobserve(
-            this.$refs.posts.$el.lastChild.previousElementSibling
-            .previousElementSibling
-          )
+
       }
     },
     computed: {
@@ -401,15 +295,15 @@
         return online
       },
       age() {
-        if (this.user.ubirthDate) {
+        if (this.user.birthDate) {
           // let today = new Date()
           // today = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-          // let dob = new Date(this.user.ubirthDate * 1000)
+          // let dob = new Date(this.user.birthDate * 1000)
           // let year = today.getFullYear() - dob.getFullYear()
           // let yo = year % 10
   
           var today = new Date()
-          var birthDate = new Date(this.user.ubirthDate * 1000)
+          var birthDate = new Date(this.user.birthDate * 1000)
           var age = today.getFullYear() - birthDate.getFullYear()
           var m = today.getMonth() - birthDate.getMonth()
           if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
@@ -430,10 +324,10 @@
         } else return null
       },
       DaysToDOB() {
-        if (this.user.ubirthDate) {
+        if (this.user.birthDate) {
           var today, bday, diff, days
           today = new Date()
-          bday = new Date(this.user.ubirthDate * 1000)
+          bday = new Date(this.user.birthDate * 1000)
           bday.setFullYear(today.getFullYear())
           if (today.getTime() > bday.getTime())
             bday.setFullYear(bday.getFullYear() + 1)
@@ -452,7 +346,6 @@
         this.$nextTick(() => {
           this.OnMount()
         })
-  
       }
       this.$store.state.edit = false
       next()
@@ -467,8 +360,8 @@
           next((vm) => {
             vm.$store.state.edit = false
             //vm.photo
-            var full = vm.avatarPath + res.data.photo //
-            var mid = vm.avatarPath + 'mid/' + res.data.photo
+            var full = res.data.photo //
+            var mid = res.data.photo256
             document.title = `${res.data.firstName} ${res.data.lastName} — Барыбинцы`
             let img = new Image() //document.createElement('img');
             img.src = full
@@ -518,7 +411,7 @@
                               );*/
     },
     updated() {
-      this.onlineStatus = this.online(this.user.ulastVisit)
+      this.onlineStatus = this.online(this.user.lastVisit)
     },
   }
 </script>

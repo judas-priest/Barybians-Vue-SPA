@@ -23,7 +23,7 @@
         })
         this.axios({
             method: 'put',
-            url: `/comments/${this.comment.id}`,
+            url: `/posts/${this.postId}/comments/${this.comment.commentId}`,
             data: comment,
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,14 +54,14 @@
           this.mounted = true
           return
         }
-        if (event.target.id == 'modal') return
+        if (event.target.id === 'modal') return
         if (this.$store.state.edit) {
           this.$store.state.edit = false
         }
         if (!this.$store.state.modal.toggle) {
           this.$store.state.edit = true
           const settings = {
-            id: `__${this.comment.id}`,
+            id: `__${this.comment.commentId}`,
             type: 'comment_edit',
             title: 'Изменения будут потеряны. Закрыть?',
             ok: 'Нет',
@@ -85,17 +85,17 @@
     mounted() {
       this.$store.state.edit = true
       this.text[0] = this.comment.text
-      this.emitter.on(`modal-cancel-comment_edit__${this.comment.id}`, (val) => {
+      this.emitter.on(`modal-cancel-comment_edit__${this.comment.commentId}`, (val) => {
         if (val) this.CommentEditCancel()
       })
-      this.emitter.on(`modal-ok-comment_edit__${this.comment.id}`, (val) => {
+      this.emitter.on(`modal-ok-comment_edit__${this.comment.commentId}`, (val) => {
         if (val) this.CommentEditOk()
       })
     },
     beforeUnmount() {
       this.$store.state.edit = false
-      this.emitter.off(`modal-cancel-comment_edit__${this.comment.id}`)
-      this.emitter.off(`modal-ok-comment_edit__${this.comment.id}`)
+      this.emitter.off(`modal-cancel-comment_edit__${this.comment.commentId}`)
+      this.emitter.off(`modal-ok-comment_edit__${this.comment.commentId}`)
     },
     components: {
       TextEdit,

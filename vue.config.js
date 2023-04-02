@@ -1,20 +1,21 @@
 module.exports = {
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 8080,
+    allowedHosts: "all",
     client: {
       webSocketURL: {
-        hostname: '0.0.0.0',
+        hostname: "0.0.0.0",
         //pathname: "/ws",
         port: 8080,
       },
     },
   },
   configureWebpack: {
-    devtool: 'source-map',
+    devtool: "source-map",
   },
   chainWebpack: (config) => {
-    config.optimization.minimizer('terser').tap((args) => {
+    config.optimization.minimizer("terser").tap((args) => {
       args[0].terserOptions.output = {
         ...args[0].terserOptions.output,
         comments: false, // exclude all comments from output

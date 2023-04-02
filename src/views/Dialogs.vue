@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="container base">
     <ul class="dialogs-list col-12">
-      <Dialog v-for="dialog of dialogs" :key="`dialog${dialog.secondUser.id}`" :dialog="dialog" :userId="dialog.secondUser.id" />
+      <Dialog v-for="dialog of dialogs" :key="`dialog${dialog.secondUser.userId}`" :dialog="dialog" :userId="dialog.secondUser.userId" />
       <div v-if="dialogs.length === 0 || dialogs.length === undefined">
         Вы ещё ни с кем не переписывались...
       </div>
@@ -76,7 +76,7 @@
       this.emitter.on('message_readed', (data) => {
         //console.log(data);
         for (var obj in this.dialogs) {
-          if (this.dialogs[obj].lastMessage.id === data.id) {
+          if (this.dialogs[obj].lastMessage.messageId === data.id) {
             this.dialogs[obj].lastMessage.unread = 0
           }
         }

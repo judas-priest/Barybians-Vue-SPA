@@ -38,7 +38,7 @@
         //console.log(token)
         this.axios({
             method: 'get',
-            url: '/token',
+            url: '/account',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               Authorization: token,
@@ -46,7 +46,7 @@
           })
           .then((res) => {
             //console.log(res)
-            this.$store.state.myId = res.data.id
+            this.$store.state.myId = res.data.userId
           })
           .catch((res) => {
             this.errorHandler(res.response.status)
@@ -329,22 +329,22 @@
   
   
   /*
-                  input[type="password"]:hover,
-                  input[type="datetime"]:hover,
-                  input[type="datetime-local"]:hover,
-                  input[type="date"]:hover,
-                  input[type="month"]:hover,
-                  input[type="time"]:hover,
-                  input[type="week"]:hover,
-                  input[type="number"]:hover,
-                  input[type="email"]:hover,
-                  input[type="url"]:hover,
-                  input[type="search"]:hover,
-                  input[type="tel"]:hover,
-                  input[type="color"]:hover {   
-                    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(165, 221, 0, 0.4)!important;
-                    outline: 0 none!important;
-                  }*/
+                    input[type="password"]:hover,
+                    input[type="datetime"]:hover,
+                    input[type="datetime-local"]:hover,
+                    input[type="date"]:hover,
+                    input[type="month"]:hover,
+                    input[type="time"]:hover,
+                    input[type="week"]:hover,
+                    input[type="number"]:hover,
+                    input[type="email"]:hover,
+                    input[type="url"]:hover,
+                    input[type="search"]:hover,
+                    input[type="tel"]:hover,
+                    input[type="color"]:hover {   
+                      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(165, 221, 0, 0.4)!important;
+                      outline: 0 none!important;
+                    }*/
   
   textarea,
   input[type='text'],
@@ -374,35 +374,35 @@
   
   
   /*
-                  input[type="password"]:focus,
-                  input[type="datetime"]:focus,
-                  input[type="datetime-local"]:focus,
-                  input[type="date"]:focus,
-                  input[type="month"]:focus,
-                  input[type="time"]:focus,
-                  input[type="week"]:focus,
-                  input[type="number"]:focus,
-                  input[type="email"]:focus,
-                  input[type="url"]:focus,
-                  input[type="search"]:focus,
-                  input[type="tel"]:focus,
-                  input[type="text"]:focus,
-                  input[type="color"]:focus {   
-                    border-color: #a5dd00!important;
-                    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.075) inset, 0 0 8px rgba(165, 221, 0, 0.6)!important;
-                    outline: green solid 3px!important;
-                  }
-                  input[type=text]:focus, textarea:focus {
-                    border: 51px solid!important;
-                    border-color: #a5dd00!important;
-                    outline: green solid 3px!important;
-                  }*/
+                    input[type="password"]:focus,
+                    input[type="datetime"]:focus,
+                    input[type="datetime-local"]:focus,
+                    input[type="date"]:focus,
+                    input[type="month"]:focus,
+                    input[type="time"]:focus,
+                    input[type="week"]:focus,
+                    input[type="number"]:focus,
+                    input[type="email"]:focus,
+                    input[type="url"]:focus,
+                    input[type="search"]:focus,
+                    input[type="tel"]:focus,
+                    input[type="text"]:focus,
+                    input[type="color"]:focus {   
+                      border-color: #a5dd00!important;
+                      box-shadow: 0 1px 1px rgba(255, 255, 255, 0.075) inset, 0 0 8px rgba(165, 221, 0, 0.6)!important;
+                      outline: green solid 3px!important;
+                    }
+                    input[type=text]:focus, textarea:focus {
+                      border: 51px solid!important;
+                      border-color: #a5dd00!important;
+                      outline: green solid 3px!important;
+                    }*/
   
   
   /*костыль для бутстраповского модального окна
-                  .modal-open {
-                    padding-right: 0 !important;
-                  }*/
+                    .modal-open {
+                      padding-right: 0 !important;
+                    }*/
   
   .h1,
   .h2,
@@ -567,9 +567,10 @@
     white-space: nowrap;
   }
   
-  span.attachment>a>div{
+  span.attachment>a>div {
     overflow: auto;
   }
+  
   span.attachment,
   span.attachment>a>img {
     max-width: 100%;

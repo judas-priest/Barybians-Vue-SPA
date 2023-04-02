@@ -1,0 +1,2045 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Native PHP Barybians API",
+    "version": "0.3.0"
+  },
+  "servers": [
+    {
+      "url": "http://api.brb.lan/v3/"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Token": {
+        "type": "string",
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Вася"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Пупкин"
+          },
+          "photo128": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/min/default.png"
+          },
+          "photo256": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/mid/default.png"
+          },
+          "photo": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/default.png"
+          },
+          "status": {
+            "type": "string",
+            "example": "Я - барыбинец"
+          },
+          "birthDate": {
+            "type": "timestamp",
+            "example": 631141200
+          },
+          "sex": {
+            "type": "string",
+            "example": "male"
+          },
+          "lastVisit": {
+            "type": "timestamp",
+            "example": 1604780171
+          },
+          "roleId": {
+            "type": "integer",
+            "example": 0
+          },
+          "postsCount": {
+            "type": "integer",
+            "example": 21
+          }
+        }
+      },
+      "User2": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "example": 2
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Иван"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Иваныч"
+          },
+          "photo128": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/min/default.png"
+          },
+          "photo256": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/mid/default.png"
+          },
+          "photo": {
+            "type": "string",
+            "example": "http://content.brb.lan/avatars/default.png"
+          },
+          "status": {
+            "type": "string",
+            "example": "Я гость"
+          },
+          "birthDate": {
+            "type": "timestamp",
+            "example": 631141200
+          },
+          "sex": {
+            "type": "string",
+            "example": "male"
+          },
+          "lastVisit": {
+            "type": "timestamp",
+            "example": 1604780171
+          },
+          "roleId": {
+            "type": "integer",
+            "example": 4
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "integer",
+            "example": 666
+          },
+          "senderId": {
+            "type": "integer",
+            "example": 1
+          },
+          "receiverId": {
+            "type": "integer",
+            "example": 2
+          },
+          "text": {
+            "type": "string",
+            "example": "Привет, мир!"
+          },
+          "time": {
+            "type": "integer",
+            "example": 1616594514
+          },
+          "unread": {
+            "type": "boolean",
+            "example": 1
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "type": {
+                  "type": "string",
+                  "example": "sticker"
+                },
+                "pack": {
+                  "type": "string",
+                  "example": "cola"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Message2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1488
+          },
+          "senderId": {
+            "type": "integer",
+            "example": 2
+          },
+          "receiverId": {
+            "type": "integer",
+            "example": 1
+          },
+          "text": {
+            "type": "string",
+            "example": null
+          },
+          "time": {
+            "type": "string",
+            "example": "2021-06-03 16:05:26"
+          },
+          "utime": {
+            "type": "integer",
+            "example": 1622725526
+          },
+          "unread": {
+            "type": "boolean",
+            "example": 1
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "type": {
+                  "type": "string",
+                  "example": "sticker"
+                },
+                "pack": {
+                  "type": "string",
+                  "example": "cola"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "postId": {
+            "type": "integer",
+            "example": 432
+          },
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "maximum": 50,
+            "example": "Привет"
+          },
+          "text": {
+            "type": "string",
+            "maximum": 2000,
+            "minimum": 1,
+            "example": "Мир!"
+          },
+          "time": {
+            "type": "timestamp",
+            "example": 1616594514
+          },
+          "lastModified": {
+            "type": "timestamp",
+            "example": 1616594514
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "type": {
+                  "type": "string",
+                  "example": "sticker"
+                },
+                "pack": {
+                  "type": "string",
+                  "example": "cola"
+                }
+              }
+            }
+          },
+          "author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "likesCount": {
+            "type": "integer",
+            "example": 1
+          },
+          "commentsCount": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "integer",
+            "example": 1488
+          },
+          "postId": {
+            "type": "integer",
+            "example": 666
+          },
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "text": {
+            "type": "string",
+            "example": "Круто!"
+          },
+          "edited": {
+            "type": "boolean",
+            "example": "0"
+          },
+          "lastModified": {
+            "type": "timestamp",
+            "example": 1616594514
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "type": {
+                  "type": "string",
+                  "example": "sticker"
+                },
+                "pack": {
+                  "type": "string",
+                  "example": "cola"
+                }
+              }
+            }
+          },
+          "time": {
+            "type": "integer",
+            "example": 1616594514
+          },
+          "author": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "Comments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Comment"
+        }
+      },
+      "Like": {
+        "type": "object",
+        "properties": {
+          "whoLiked": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "likesCount": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "link"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://barybians.ru"
+          },
+          "title": {
+            "type": "string",
+            "example": "Социальная сеть «Барыбинцы»"
+          },
+          "description": {
+            "type": "string",
+            "example": "Маленькая соцсеть с огромным потенциалом"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://barybians.ru/res/jopa0001.png"
+          },
+          "favicon": {
+            "type": "string",
+            "example": "https://barybians.ru/res/logo_black.png"
+          },
+          "timestamp": {
+            "type": "integer",
+            "example": 1620838309
+          }
+        }
+      },
+      "OnlineUsers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "object",
+              "example": 1
+            },
+            "online": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "PostNotFound": {
+        "description": "Not found",
+        "content": {
+          "application-json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Post is not found!"
+                },
+                "error": {
+                  "type": "integer",
+                  "example": 500
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Token is invalid or missing"
+                },
+                "error": {
+                  "type": "integer",
+                  "example": 401
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "error": {
+                  "type": "integer",
+                  "example": 400
+                }
+              }
+            }
+          }
+        }
+      },
+      "Idempotency": {
+        "description": "Precondition Failed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Idempotency key is duplicate or missing"
+                },
+                "error": {
+                  "type": "integer",
+                  "example": 412
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application-json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "integer",
+                  "example": 500
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "idempotencyKey": {
+        "in": "header",
+        "name": "request",
+        "description": "Random generated uuid",
+        "schema": {
+          "type": "string",
+          "format": "uuid4",
+          "example": "520237a6-8954-4a4f-9942-2713c7627f66"
+        },
+        "required": true
+      },
+      "ParseMode": {
+        "in": "header",
+        "name": "parse-mode",
+        "description": "Choosing parse mode for markup, hyperlinks and more <br><small><i>Available modes:</i> text, html, bb, md</small>",
+        "schema": {
+          "type": "string",
+          "example": "html"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "register": {
+      "post": {
+        "summary": "Registration",
+        "tags": ["Sign in and log in"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "example": "Вася",
+                    "description": "Your name",
+                    "minLength": 2,
+                    "maxLength": 20
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Пупкин",
+                    "description": "Your surname",
+                    "minLength": 2,
+                    "maxLength": 20
+                  },
+                  "birthDate": {
+                    "type": "string",
+                    "example": "01.01.2001",
+                    "description": "Your date of birth"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "example": "default.png",
+                    "description": "Your avatar"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "example": false,
+                    "description": "Your sex. \"male\" or \"female\" <br>If boolean (or integer) then \"false\" is male, \"true\" is female",
+                    "minLength": 1,
+                    "maxLength": 6
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "vasyapupkin",
+                    "description": "Your login",
+                    "minLength": 4,
+                    "maxLength": 20
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "nagorshkesiditkorol",
+                    "description": "Your password",
+                    "minLength": 4,
+                    "maxLength": 50
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "birthDate",
+                  "sex",
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Registration was successful!"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "auth": {
+      "post": {
+        "summary": "Authentication",
+        "tags": ["Sign in and log in"],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "login",
+                    "description": "Your login",
+                    "minLength": 4,
+                    "maxLength": 50
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password",
+                    "description": "Your password",
+                    "minLength": 4,
+                    "maxLength": 50,
+                    "format": "password"
+                  }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "token": {
+                      "$ref": "#/components/schemas/Token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "users": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "online",
+            "schema": {
+              "type": "boolean",
+              "value": true
+            },
+            "description": "Only users is online<br><small>Optional parameter. </small>"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List of users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "users/{userId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "The user ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Specific user",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "dialogs": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Dialogs list",
+        "tags": ["Messaging"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "secondUser": {
+                            "$ref": "#/components/schemas/User"
+                          },
+                          "lastMessage": {
+                            "$ref": "#/components/schemas/Message"
+                          },
+                          "unreadCount": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "messagesCount": {
+                            "type": "integer",
+                            "example": 543
+                          }
+                        }
+                      },
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "secondUser": {
+                            "$ref": "#/components/schemas/User2"
+                          },
+                          "lastMessage": {
+                            "$ref": "#/components/schemas/Message2"
+                          },
+                          "unreadCount": {
+                            "type": "integer",
+                            "example": 4
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "dialogs/{userId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "UserID the dialog with which you want to receive"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Last message in a dialog with a specific user",
+        "tags": ["Messaging"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "secondUser": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "lastMessage": {
+                      "$ref": "#/components/schemas/Message"
+                    },
+                    "unreadCount": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "messagesCount": {
+                      "type": "integer",
+                      "example": 543
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "users/{userId}/messages": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "UserID the dialog with which you want to receive"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "allowEmptyValue": false,
+            "schema": {
+              "type": "integer",
+              "value": 0
+            },
+            "description": "Offset position to collect the result set"
+          },
+          {
+            "in": "query",
+            "name": "desc",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Descending the list<br><small>Optional parameter. </small>"
+          },
+          {
+            "in": "query",
+            "name": "unread",
+            "required": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Get unread messages only<br><small>Optional parameter. </small>"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Dialog with a specific user",
+        "tags": ["Messaging"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstUser": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "messageCount": {
+                              "type": "integer",
+                              "example": 256
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "secondUser": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "messageCount": {
+                              "type": "integer",
+                              "example": 256
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Message"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "UserID who you want to send a message"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/ParseMode"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Send message",
+        "tags": ["Messaging"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "example": "Привет! Как у тебя дела?",
+                    "description": "Your message text",
+                    "minLength": 1,
+                    "maxLength": 5000
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/Message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "412": {
+            "$ref": "#/components/responses/Idempotency"
+          }
+        }
+      }
+    },
+    "posts": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/ParseMode"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create post",
+        "tags": ["Posts"],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Hello",
+                    "description": "Post title",
+                    "maxLength": 50
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "World",
+                    "description": "Post text",
+                    "maxLength": 2000
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "offset position to collect the result set"
+          },
+          {
+            "in": "query",
+            "name": "desc",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Descending the list<br><small>Optional parameter. </small>"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Posts list",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "users/{userId}/posts": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The user ID"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset position to collect the result set"
+          },
+          {
+            "in": "query",
+            "name": "desc",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Descending the list<br><small>Optional parameter. </small>"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "User posts",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "posts/{postId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The post ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Specific post",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNotFound"
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The post ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Edit post",
+        "tags": ["Posts"],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Hello",
+                    "description": "Post title",
+                    "maxLength": 50
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "World",
+                    "description": "Post text",
+                    "maxLength": 2000
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/Post"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNotFound"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Delete post",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "boolean",
+                  "value": true
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNotFound"
+          }
+        }
+      }
+    },
+    "posts/{postId}/like": {
+      "post": {
+        "summary": "Like the post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The post ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Like"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unlike the post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The post ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Like"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "comments": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create comment",
+        "tags": ["Posts"],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "postId": {
+                    "type": "integer",
+                    "example": 234,
+                    "description": "Post ID"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "World",
+                    "description": "Comment text",
+                    "maxLength": 2000
+                  }
+                },
+                "required": ["postId", "text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comments"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Comments list",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "comments/{commentId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The comment ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Specific comment",
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Comment is not found!"
+                    },
+                    "error": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The comment ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Edit comment",
+        "tags": ["Posts"],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "example": "World",
+                    "description": "Comment text",
+                    "maxLength": 2000
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The comment ID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Posts"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "boolean",
+                  "value": true
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "account/photo": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get your profile picture attributes",
+        "tags": ["Account"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "photo": {
+                      "type": "string",
+                      "example": "1617836095.png"
+                    },
+                    "width": {
+                      "type": "integer",
+                      "example": 577
+                    },
+                    "height": {
+                      "type": "integer",
+                      "example": 433
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Choose new profile picture"
+                  }
+                },
+                "required": ["photo"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Change profile picture",
+        "tags": ["Account"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Avatar has been changed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "account/status": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get your status",
+        "tags": ["Account"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Я-барыбинец"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "text",
+                    "description": "Enter status text",
+                    "maximum": 110,
+                    "example": "Я-барыбинец"
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Set your status",
+        "tags": ["Account"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Я-барыбинец"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Delete your status",
+        "tags": ["Account"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "stickers": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get stickers pack",
+        "tags": ["Stickers"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Name": {
+                      "type": "string",
+                      "example": "Джокер"
+                    },
+                    "Pack": {
+                      "type": "string",
+                      "example": "joker"
+                    },
+                    "Icon": {
+                      "type": "string",
+                      "example": "4.png"
+                    },
+                    "Amount": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "stories": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get stories from all users",
+        "tags": ["Stories"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1488
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "date": {
+                      "type": "integer",
+                      "example": 1603153653
+                    },
+                    "video": {
+                      "type": "string",
+                      "example": "/stories/id6864558830907293696.mp4"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "Дядя"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Вася"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "photo.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "stories/{userId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "UserID of the user of the story you want to get"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get stories from user",
+        "tags": ["Stories"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application-json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1488
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "date": {
+                      "type": "integer",
+                      "example": 1603153653
+                    },
+                    "video": {
+                      "type": "string",
+                      "example": "/stories/id6864558830907293696.mp4"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "Дядя"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Вася"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "photo.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    }
+  }
+}

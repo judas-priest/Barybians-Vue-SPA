@@ -1,26 +1,28 @@
 <template>
-  <div class="post transition" ref="post" :data-post="post.id" v-click-outside="collapse">
+  <div class="post transition" ref="post" :data-post="post.postId" v-click-outside="collapse">
     <div v-if="!postEdit" class="post-wrapper">
-      <router-link v-if="post.author && currentRouteName === 'Feed'" class="post-author" :to="!$store.state.edit ? `/profile/id${post.author.id}` : ''" :data-author="post.author.id">
-        <AvatarMin :userId="post.userId" :lastVisit="post.author.ulastVisit" :photo="post.author.photo" />
-        <h5 v-if="post.author.id != myId">
+      <div v-if="post.author && currentRouteName === 'Feed'" class="author-wrapper">
+      <router-link class="post-author" :to="!$store.state.edit ? `/profile/id${post.author.userId}` : ''" :data-author="post.author.userId">
+        <AvatarMin :userId="post.userId" :lastVisit="post.author.lastVisit" :photo="post.author.photo128" />
+        <h5 v-if="post.author.userId !== myId">
           {{ `${post.author.firstName} ${post.author.lastName}` }}
         </h5>
         <h5 v-else>Я</h5>
       </router-link>
+      </div>
       <div class="post-head">
         <h4 class="post-title" contenteditable="false" v-html="Emoji(post.title)" ref="title"></h4>
   
-        <small v-if="post.edited == 1" class="post-edited">
-                      <EditBtn
-                        type="edited"
-                        data-toggle="tooltip"
-                        title="Редактирован"
-                        style="vertical-align: baseline"
-                        width="12"
-                        height="12"
-                    /></small>
-        <span class="post-date" v-html="timeName(post.utime)"></span>
+        <small v-if="post.lastModified" class="post-edited">
+              <EditBtn
+                type="edited"
+                data-toggle="tooltip"
+                title="Редактирован"
+                style="vertical-align: baseline"
+                width="12"
+                height="12"
+            /></small>
+        <span class="post-date" v-html="timeName(post.time)"></span>
       </div>
       <div class="post-body">
         <div class="post-content">
@@ -28,41 +30,32 @@
           <div class="post-attachments" contenteditable="false" v-html="attachments" ref="attachments"></div>
         </div>
         <span v-show="showMoreLess" class="showmore_trigger">
-                      <span v-if="collapsed" class="morelink more" @click="showMore"
-                        >Развернуть</span
-                      >
-                      <span v-else class="morelink less" @click="showMore">Свернуть</span>
+              <span v-if="collapsed" class="morelink more" @click="showMore"
+                >Развернуть</span
+              >
+              <span v-else class="morelink less" @click="showMore">Свернуть</span>
         </span>
   
         <div class="post-actions">
           <div class="col-12 post-mng">
-            <div class="likepost post-mng-btn">
-              <span :class="[whoLiked(post.likedUsers) ? 'unlike' : 'like']" @click="likeToggle" ref="like">
-                            <LikeBtn />
-                            <span class="likeCount" ref="likeCount">{{
-                              post.likesCount != 0 ? post.likesCount : ''
-                            }}</span>
-              </span>
-            </div>
+            <Like :postId="post.postId" :userId="post.userId" :likesCount="post.likesCount" />
             <div class="post-edit-ops post-mng-btn pointer" @click="PostEdit">
               <EditBtn :type="'btn_post-edit'" data-toggle="tooltip" title="Редактировать пост" />
             </div>
-            <PostDel v-if="myId == userId" :postId="post.id" />
+            <PostDel v-if="myId === userId" :postId="post.postId" />
             <div style="flex: 1"></div>
             <div class="comment-manage">
-              <span v-if="
-                              post.commentsCount !== 0 && post.commentsCount !== undefined
-                            ">
-                            <span
-                              @click="isSlidedComments = !isSlidedComments"
-                              class="comment-arrow"
-                            >
-                              <Up v-if="isSlidedComments" />
-                              <Down v-else
-                            /></span>
+              <span v-if="commentsCounter !== 0 && commentsCounter !== ''">
+                    <span
+                      @click="isSlidedComments = !isSlidedComments"
+                      class="comment-arrow"
+                    >
+                      <Up v-if="isSlidedComments" />
+                      <Down v-else
+                    /></span>
               <span class="comment-counter post-mng-btn">{{
-                              post.commentsCount
-                            }}</span>
+                      commentsCounter
+                    }}</span>
               </span>
             </div>
             <div class="post-mng-btn" style="margin-right: 0; min-width: auto">
@@ -71,10 +64,10 @@
           </div>
         </div>
         <collapse-transition>
-          <CommentAdd v-if="commentAdd" :postId="post.id" @add="(val) => addComment(val)" />
+          <CommentAdd v-if="commentAdd" :postId="post.postId" />
         </collapse-transition>
-        <collapse-transition class="comments-container" :data-post-id="post.id">
-          <Comments v-if="isSlidedComments && post.comments.length" :comments="post.comments" :postId="post.id" />
+        <collapse-transition class="comments-container" :data-post-id="post.postId">
+          <Comments v-if="isSlidedComments && commentsCounter" :postId="post.postId" />
         </collapse-transition>
       </div>
     </div>
@@ -93,7 +86,7 @@
   import EditBtn from '@/components/Buttons/Edit2.vue'
   import PostEdit from '@/components/Post/Edit.vue'
   import PostDel from '@/components/Post/Del.vue'
-  import LikeBtn from '@/components/Buttons/Like.vue'
+  import Like from '@/components/Post/Like.vue'
   import CommentBtn from '@/components/Buttons/Comment.vue'
   import Down from '@/components/Buttons/ArrowDown.vue'
   import Up from '@/components/Buttons/ArrowUp.vue'
@@ -108,7 +101,7 @@
       EditBtn,
       PostEdit,
       PostDel,
-      LikeBtn,
+      Like,
       CommentBtn,
       Down,
       Up,
@@ -125,30 +118,45 @@
         isSlidedComments: false,
         wysiwygDisable: false,
         isMounted: false,
+        commentsCounter: '',
       }
     },
     updated() {
       //console.log(this.post);
     },
     mounted() {
+      this.commentsCounter = this.post.commentsCount
+  
       this.isMounted = true
-      /*this.emitter.on("comment-add", val => {
-                          this.addComment(val)
-                        });*/
-      this.emitter.on(`comment-update__${this.post.id}`, (val) => {
-        this.editComment(val)
+      this.emitter.on(`comment-add__${this.post.postId}`, () => {
+        this.isSlidedComments = true
+        this.commentsCounter++
+        this.$store.state.edit = false
+        this.commentAdd = false
+  
+      });
+  
+      this.emitter.on(`comment-update__${this.post.postId}`, () => {
+        this.isSlidedComments = true
+        this.$store.state.edit = false
+        this.$nextTick(() => {
+          if (this.$refs.comment) this.goto('comment')
+        })
+      })
+  
+      this.emitter.on(`comment-delete__${this.post.postId}`, () => {
+        this.commentsCounter--
       })
     },
     beforeUnmount() {
-      this.emitter.off(`comment-update__${this.post.id}`)
+      this.emitter.off(`comment-update__${this.post.postId}`)
     },
     methods: {
       collapse(e) {
         if (e.target.closest('#modal')) return
         if (e.target !== this.$refs.post && !this.$refs.post.contains(e.target)) {
           this.commentAdd = false
-        } 
-  
+        }
       },
       showMore() {
         this.$refs.text.classList.toggle('less')
@@ -158,34 +166,6 @@
         if (this.$store.state.edit) return
         this.postEdit = true
       },
-      addComment(res) {
-        for (var obj in this.comments) {
-          if (this.comments[obj].id === res.data.id) return
-        }
-        this.isSlidedComments = true
-        this.post.comments.push(res.data)
-        this.post.commentsCount++
-          this.emitter.emit('post-update', this.post)
-        this.$store.state.edit = false
-        this.commentAdd = false
-        this.$nextTick(() => {
-          if (this.$refs.comment) this.goto('comment')
-        })
-      },
-      editComment(comment) {
-        for (var obj in this.post.comments) {
-          if (this.post.comments[obj].id === comment.id) {
-            this.post.comments.splice(obj, 1, comment)
-          }
-        }
-  
-        this.isSlidedComments = true
-        this.emitter.emit('post-update', this.post)
-        this.$store.state.edit = false
-        this.$nextTick(() => {
-          if (this.$refs.comment) this.goto('comment')
-        })
-      },
       CommentAddToggle() {
         if (!this.commentAdd && this.$store.state.edit) return
         if (this.commentAdd) {
@@ -194,30 +174,6 @@
         }
         this.commentAdd = true
         //console.log(this.commentAdd);
-      },
-      whoLiked(usersWhoLiked) {
-        if (usersWhoLiked)
-          for (let liker of usersWhoLiked)
-            return liker.id === this.myId ? true : false
-      },
-      likeToggle() {
-        if (this.$store.state.edit) return
-        let p = this.$refs.post //event.currentTarget.closest(".post");
-        let l = this.$refs.like //event.currentTarget;
-        let c = this.$refs.likeCount //event.currentTarget.querySelector(".likeCount");
-        if (l.classList == 'like') {
-          this.axios.post(`/posts/${p.dataset.post}/like`).then((res) => {
-            c.textContent = res.data.likesCount
-            l.classList = 'unlike'
-          })
-        } else if (l.classList == 'unlike') {
-          this.axios.delete(`/posts/${p.dataset.post}/like`).then((res) => {
-            res.data.likesCount === 0 ?
-              (c.textContent = '') :
-              (c.textContent = res.data.likesCount)
-            l.classList = 'like'
-          })
-        }
       },
       parser: parser,
       Emoji: Emoji,
@@ -285,6 +241,11 @@
     display: flex;
     margin-bottom: inherit;
   }
+  .author-wrapper{
+    margin-bottom: 20px;
+    display: inline;
+  }
+
   
   .post-author>h5 {
     color: var(--text);
@@ -394,25 +355,6 @@
   .post-mng-btn svg {
     height: 1em;
     width: 1em;
-  }
-  
-  .likeCount {
-    vertical-align: -1px;
-  }
-  
-  .like,
-  .unlike {
-    height: 1.5em;
-    display: inline-block;
-  }
-  
-  .like>svg>g>path {
-    stroke: var(--block-time);
-    fill: none;
-  }
-  
-  .unlike>svg>g>path {
-    fill: var(--danger);
   }
   
   .morelink {

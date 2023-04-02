@@ -13,8 +13,8 @@
   
         <label for="register-sex-input">Пол</label>
         <select v-model="sex" class="form-control">
-                <option value="0" selected="">Мужской</option>
-                <option value="1">Женский</option>
+                <option value="male" selected="">Мужской</option>
+                <option value="female">Женский</option>
               </select>
         <small id="register-sex-small" class="form-text"></small>
   

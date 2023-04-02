@@ -19,7 +19,7 @@
     methods: {
       PostEditOk() {
         //this.emitter.emit('modal-cancel-post_edit', false);
-        this.emitter.emit(`modal-ok-post_edit__${this.post.id}`, false)
+        this.emitter.emit(`modal-ok-post_edit__${this.post.postId}`, false)
         this.$store.state.modal.toggle = false
         this.$store.state.edit = false
       },
@@ -40,7 +40,7 @@
         if (!this.$store.state.modal.toggle) {
           this.$store.state.edit = true
           const settings = {
-            id: `__${this.post.id}`,
+            id: `__${this.post.postId}`,
             type: 'post_edit',
             title: 'Изменения будут потеряны. Закрыть?',
             ok: 'Нет',
@@ -60,7 +60,7 @@
         })
         this.axios({
             method: 'put',
-            url: `/posts/${this.post.id}`,
+            url: `/posts/${this.post.postId}`,
             data: post,
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
@@ -74,7 +74,7 @@
           .catch(() => {
             //console.log(res);
             const settings = {
-              id: `__${this.post.id}`,
+              id: `__${this.post.postId}`,
               type: 'post_edit_repeat',
               title: 'Ошибка! Повторить?',
               ok: 'Да',
@@ -88,25 +88,25 @@
       this.$store.state.edit = true
       this.text[0] = this.post.text
   
-      this.emitter.on(`modal-cancel-post_edit__${this.post.id}`, (val) => {
+      this.emitter.on(`modal-cancel-post_edit__${this.post.postId}`, (val) => {
         if (val) this.PostEditCancel()
       })
-      this.emitter.on(`modal-ok-post_edit__${this.post.id}`, (val) => {
+      this.emitter.on(`modal-ok-post_edit__${this.post.postId}`, (val) => {
         if (val) this.PostEditOk()
       })
-      this.emitter.on(`modal-cancel-post_edit_repeat__${this.post.id}`, (val) => {
+      this.emitter.on(`modal-cancel-post_edit_repeat__${this.post.postId}`, (val) => {
         if (val) this.PostEditCancel()
       })
-      this.emitter.on(`modal-ok-post_edit_repeat__${this.post.id}`, (val) => {
+      this.emitter.on(`modal-ok-post_edit_repeat__${this.post.postId}`, (val) => {
         if (val) this.PostEditUpdate()
       })
     },
     beforeUnmount() {
       this.$store.state.edit = false
-      this.emitter.off(`modal-cancel-post_edit__${this.post.id}`)
-      this.emitter.off(`modal-ok-post_edit__${this.post.id}`)
-      this.emitter.off(`modal-cancel-post_edit_repeat__${this.post.id}`)
-      this.emitter.off(`modal-ok-post_edit_repeat__${this.post.id}`)
+      this.emitter.off(`modal-cancel-post_edit__${this.post.postId}`)
+      this.emitter.off(`modal-ok-post_edit__${this.post.postId}`)
+      this.emitter.off(`modal-cancel-post_edit_repeat__${this.post.postId}`)
+      this.emitter.off(`modal-ok-post_edit_repeat__${this.post.postId}`)
     },
     props: ['post'],
     components: {

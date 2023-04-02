@@ -30,16 +30,13 @@
       CommentDelCancel() {
         this.axios({
           method: 'delete',
-          url: `/comments/${this.commentId}`,
+          url: `/posts/${this.postId}/comments/${this.commentId}`,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
         }).then((res) => {
           if (res.data) {
-            this.emitter.emit('comment-delete', {
-              commentId: this.commentId,
-              postId: this.postId,
-            })
+            this.emitter.emit(`comment-delete__${this.postId}`, this.commentId)
             //this.emitter.emit(`modal-cancel-post_del_${this.postId}`, false);
             this.$store.state.modal.toggle = false
           }

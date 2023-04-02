@@ -185,7 +185,7 @@ export function cssLoad(style) {
     link.setAttribute('id', style)
     head.appendChild(link)
   }
-
+  this.settings.style = style
   setTimeout(() => {
     for (var i = 0; i < theme.length; i++) {
       if (theme[i].id !== style) head.removeChild(theme[i])
@@ -467,7 +467,7 @@ export function parser($text, attachments, edit = false) {
       //console.log($preview['length'] - $html.length)
     }
   }
-  console.log('parsed_______________')
+  //console.log('parsed_______________')
   return { text: $text, attachments: parsedAttachments }
 }
 export function parserDialog($text, attachments) {

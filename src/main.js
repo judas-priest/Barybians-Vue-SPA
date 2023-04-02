@@ -1,16 +1,16 @@
-import { createApp } from 'vue'
-import '@/../public/css/__white.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { cssLoad, rot13 } from '@/../public/js/func.js'
-import VueCookies from 'vue3-cookies'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import axios from 'axios'
-import Websocket from './plugins/websocket/Main.js' //"vue-simple-websocket";
-import CollapseTransition from '@ivanv/vue-collapse-transition/src/CollapseTransition.vue'
-import mitt from 'mitt'
-import Modal from './mixins/modal.js'
+import { createApp } from "vue"
+import "@/../public/css/__white.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import { cssLoad, rot13 } from "@/../public/js/func.js"
+import VueCookies from "vue3-cookies"
+import App from "./App.vue"
+import router from "./router"
+import store from "./store"
+import axios from "axios"
+import Websocket from "./plugins/websocket/Main.js" //"vue-simple-websocket";
+import CollapseTransition from "@ivanv/vue-collapse-transition/src/CollapseTransition.vue"
+import mitt from "mitt"
+import Modal from "./mixins/modal.js"
 
 const emitter = mitt()
 const Vue = createApp(App)
@@ -28,7 +28,7 @@ Vue.use(
 )
 Vue.mixin(Modal)
 // directives.js
-Vue.directive('outside', {
+Vue.directive("outside", {
   beforeMount(element, binding, vnode) {
     element.OutsideEvent = function (event) {
       //  check that click was outside the el and his children
@@ -38,13 +38,13 @@ Vue.directive('outside', {
         //binding.value();
       }
     }
-    document.body.addEventListener('click', element.OutsideEvent)
+    document.body.addEventListener("click", element.OutsideEvent)
   },
   unmounted(element) {
-    document.body.removeEventListener('click', element.OutsideEvent)
+    document.body.removeEventListener("click", element.OutsideEvent)
   },
 })
-Vue.directive('click-outside', {
+Vue.directive("click-outside", {
   beforeMount(el, binding) {
     el.clickOutsideEvent = function (event) {
       if (
@@ -54,19 +54,19 @@ Vue.directive('click-outside', {
         binding.value(event, el)
       }
     }
-    document.body.addEventListener('click', el.clickOutsideEvent)
+    document.body.addEventListener("click", el.clickOutsideEvent)
   },
   unmounted(el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
+    document.body.removeEventListener("click", el.clickOutsideEvent)
   },
 })
-Vue.directive('visibility', {
+Vue.directive("visibility", {
   update(el, binding) {
-    if (binding.value) el.style.visibility = ''
-    else el.style.visibility = 'hidden'
+    if (binding.value) el.style.visibility = ""
+    else el.style.visibility = "hidden"
   },
 })
-Vue.directive('touch', {
+Vue.directive("touch", {
   beforeMount(el, binding) {
     el.touch = {}
     el.touchStart = (event) => {
@@ -78,18 +78,18 @@ Vue.directive('touch', {
       el.touch.endY = event.changedTouches[0].screenY
       binding.value(el.touch, el)
     }
-    el.addEventListener('touchstart', el.touchStart)
-    el.addEventListener('touchend', el.touchEnd)
+    el.addEventListener("touchstart", el.touchStart)
+    el.addEventListener("touchend", el.touchEnd)
   },
   unmounted(el) {
-    el.removeEventListener('touchstart', el.touchStart)
-    el.removeEventListener('touchend', el.touchEnd)
+    el.removeEventListener("touchstart", el.touchStart)
+    el.removeEventListener("touchend", el.touchEnd)
   },
 })
 //
 //
 
-Vue.directive('focus', {
+Vue.directive("focus", {
   inserted(el) {
     el.focus()
   },
@@ -104,9 +104,9 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         // Вернуть 401, очистить информацию о токене и перейти на страницу входа
         case 401:
-          localStorage.removeItem('token')
+          localStorage.removeItem("token")
           router.replace({
-            path: '/',
+            path: "/",
             // Перейти на текущую страницу после успешного входа
             // query: {redirect: router.currentRoute.fullPath}
           })
@@ -116,10 +116,10 @@ axios.interceptors.response.use(
     }
   }
 )
-Vue.component('CollapseTransition', CollapseTransition)
+Vue.component("CollapseTransition", CollapseTransition)
 Vue.config.globalProperties.settings = []
 Vue.config.globalProperties.settings.style =
-  Vue.config.globalProperties.$cookies.get('style')
+  Vue.config.globalProperties.$cookies.get("style")
 
 Vue.config.globalProperties.emitter = emitter
 Vue.config.globalProperties.cssLoad = cssLoad
@@ -128,13 +128,13 @@ Vue.config.globalProperties.cipher = rot13
 Vue.config.globalProperties.host = `${location.protocol}//${location.hostname}` //host
 Vue.config.globalProperties.content = process.env.VUE_APP_CONTENT //content
 Vue.config.globalProperties.avatarPath = `${process.env.VUE_APP_CONTENT}/avatars/`
-Vue.config.globalProperties.imageError = `this.src="${require('@/../public/img/404.jpg')}"`
+Vue.config.globalProperties.imageError = `this.src="${require("@/../public/img/404.jpg")}"`
 Vue.config.globalProperties.imageErrorAvatar = `this.src="${Vue.config.globalProperties.avatarPath}404.webp"`
 Vue.config.globalProperties.axios = axios
 Vue.config.globalProperties.axios.defaults.baseURL = process.env.VUE_APP_API //api
 Vue.config.globalProperties.axios.defaults.timeout = 10000
 
-Vue.config.globalProperties.axios.defaults.headers.common['Authorization'] =
+Vue.config.globalProperties.axios.defaults.headers.common["Authorization"] =
   null
 
-Vue.mount('#base')
+Vue.mount("#base")
