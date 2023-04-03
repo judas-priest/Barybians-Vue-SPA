@@ -1,5 +1,5 @@
 # Single Page Application for Barybians social networking site
-
+[![RealWorld Frontend](public/img/jopa0001.png)](https://barybians.ru)
 This social network prototype app implements registration, authentication, CRUD operations (adding, editing and deleting posts and comments; realtime messaging), and routing.
 
 This project demo is available at [barybians.ru](https://barybians.ru)
