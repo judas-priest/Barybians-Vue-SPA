@@ -4,9 +4,9 @@ This social network prototype app implements registration, authentication, CRUD 
 
 This project demo is available at [barybians.ru](https://barybians.ru)
 
-Websocket server for Barybians is available at [here](https://github.com/judas-priest/Barybians-Websocket-Server).
+Websocket server for Barybians is available [here](https://github.com/judas-priest/Barybians-Websocket-Server).
 
-Rest API for Barybians is available at [here](https://github.com/judas-priest/Barybians-Websocket-Server).
+Rest API for Barybians is available [here](https://github.com/judas-priest/Barybians-PHP-REST).
 
 ## Usage
 
