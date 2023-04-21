@@ -1,6 +1,6 @@
 <template>
   <div v-cloak v-show="user">
-    <div class="reciever-name msg-top fixed-top" id="msg-top" ref="navbar">
+    <div class="reciever-name" id="msg-top" ref="navbar">
       <router-link :to="!$store.state.edit ? `/profile/id${user.userId}` : ''">
         <AvatarMin
           :userId="user.userId"
@@ -26,10 +26,6 @@
           </div>
         </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
       <Send :userId="userId" @sended="sended" />
     </div>
   </div>
@@ -161,13 +157,7 @@ export default {
       })
     },
     NavbarSticky(val) {
-      if (this.$refs.navbar) {
-        if (val) {
-          this.$refs.navbar.classList.remove("fixed-top")
-        } else {
-          this.$refs.navbar.classList.add("fixed-top")
-        }
-      }
+      console.log(val)
     },
   },
   beforeRouteEnter(to, from, next) {
@@ -225,11 +215,19 @@ export default {
     },
   },
   mounted() {
+
     setTimeout(() => {
       window.scrollTo(
         0,
         document.body.scrollHeight || document.documentElement.scrollHeight
       )
+           if (document.querySelector("#nav-top") !== null) {
+      console.log(document.querySelector("#nav-top"))
+      document.querySelector("#nav-top").appendChild(this.$refs.navbar)
+    } else {      
+      this.$refs.navbar.classList.add("fixed-top")
+      document.querySelector('#nav-bottom').insertBefore(document.querySelector('.send-message'), document.querySelector('#nav-bottom').firstChild); 
+    }
     }, 100)
     this.emitter.on("messages-loaded", () => {
       console.log("messages-loaded")
@@ -318,8 +316,8 @@ export default {
 .reciever-name {
   text-align: center;
   background-color: var(--primary);
-  margin-top: 2em; //43.49px
-  padding-top: 8px;
+  /*margin-top: 2em; //43.49px
+  padding-top: 8px;*/
 }
 
 @media (max-width: 767.98px) {
@@ -327,10 +325,10 @@ export default {
     margin-top: 43px;
     padding-bottom: 20px;
   }
-  .reciever-name {
+  /*.reciever-name {
     margin-bottom: -44.59px;
     margin-top: 1px;
-  }
+  }*/
   .msg-top {
     margin-top: 0;
   }

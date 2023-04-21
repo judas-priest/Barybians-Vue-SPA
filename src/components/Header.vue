@@ -142,6 +142,7 @@
 <style lang="scss" scoped>
 .navbar {
   padding: 0.4em 1em;
+  display: block;
 }
 
 div#nav-container {
