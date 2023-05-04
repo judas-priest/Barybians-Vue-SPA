@@ -15,6 +15,7 @@ const store = createStore({
           type: '',
           title: '',
           body: '',
+          photo: '',
           ok: '',
           cancel: '',
         },

@@ -3,22 +3,23 @@
     <div v-if="$store.state.mobile" id="last_visit">
       <span v-if="onlineStatus" id="online_status">Онлайн</span>
       <span v-else>{{
-                        (user.sex === 'male' ? 'Заходил ' : 'Заходила ') + timeName(user.lastVisit)
-                      }}</span>
+            (user.sex === "male" ? "Заходил " : "Заходила ") +
+            timeName(user.lastVisit)
+          }}</span>
     </div>
     <div class="row">
       <div class="col-4 col-sm-3 col-md-3">
         <img v-if="user.photo" data-larg id="avatar" @click="profileImg" @load="changeImg" :src="photo" :onerror="imageErrorAvatar" alt="profile" class="img-fluid rounded" width="255" ref="avatar" />
-        <transition name="modal">
-          <div v-if="profileView" @click="profileView = false" class="modal modal-backdrop">
-            <div class="modal-content">
-              <img id="photo__full" class="pointer" alt="profilePhotoPreview" @click="profileUrl" v-touch="swipe" :onerror="imageErrorAvatar" :src="this.photo" />
-              <button v-if="user.userId === myId" id="change-avatar" class="btn btn-secondary" @click="changeAvatar">
-                                Заменить фотографию
-                              </button>
-            </div>
-          </div>
-        </transition>
+        <!-- <transition name="modal">
+                <div v-if="profileView" @click="profileView = false" class="modal modal-backdrop">
+                  <div class="modal-content">
+                    <img id="photo__full" class="pointer" alt="profilePhotoPreview" @click="profileUrl" v-touch="swipe" :onerror="imageErrorAvatar" :src="this.photo" />
+                    <button v-if="user.userId === myId" id="change-avatar" class="btn btn-secondary" @click="changeAvatar">
+                                      Заменить фотографию
+                                    </button>
+                  </div>
+                </div>
+              </transition> -->
         <router-link v-if="user.userId != myId" id="dialog-link" :to="!$store.state.edit ? `/messages/id${user.userId}` : ''">Открыть диалог</router-link>
         <router-link v-if="user.userId != myId" id="dialog-link-mob" :to="!$store.state.edit ? `/messages/id${user.userId}` : ''">
           <MessageButton />
@@ -29,15 +30,15 @@
         <div id="name">
           {{ user.firstName }} {{ user.lastName }}
           <span v-if="user.roleId === 1" id="verified" class="verified-sym-green" data-toggle="tooltip" title="Администратор сайта" ref="verified">
-                            <span id="check">✓</span>
+                <span id="check">✓</span>
           <router-link v-if="user.userId === 1" id="love" :to="!$store.state.edit ? '/profile/id3' : ''">❤️</router-link>
           </span>
           <span v-if="user.roleId === 2" id="verified" class="verified-sym-blue" data-toggle="tooltip" title="Настоящий барыбинец">
-                            <span id="check">✓</span>
+                <span id="check">✓</span>
           <router-link v-if="user.userId === 3" id="love" :to="!$store.state.edit ? '/profile/id1' : ''">❤️</router-link>
           </span>
           <span v-if="user.roleId === 3" id="verified" class="verified-sym-yellow" data-toggle="tooltip" title="Настоящий барыбинец">
-                            <span id="check">✓</span>
+                <span id="check">✓</span>
           </span>
         </div>
         <div id="yo">
@@ -56,35 +57,35 @@
       <div v-if="!$store.state.mobile" class="col-2" id="last_visit">
         <span v-if="onlineStatus" id="online_status">Онлайн</span>
         <span v-else>{{
-                          (user.sex === 'male' ? 'Заходил ' : 'Заходила ') +
-                          timeName(user.lastVisit)
-                        }}</span>
+              (user.sex === "male" ? "Заходил " : "Заходила ") +
+              timeName(user.lastVisit)
+            }}</span>
       </div>
     </div>
     <PostAdd v-cloak :user="user" />
-    <Posts v-cloak v-if="user" :user="user" :myId="myId" :key="user.userId"/>
+    <Posts v-cloak v-if="user" :user="user" :myId="myId" :key="user.userId" />
   </div>
 </template>
 
 <script>
-  import Posts from '@/components/Post/Posts.vue'
+  import Posts from "@/components/Post/Posts.vue"
   import {
     online,
     uuidv4,
     timeName,
     Emoji
-  } from '@/../public/js/func.js'
-  import PostAdd from '@/components/Post/Add.vue'
-  import SendBtn from '@/components/Buttons/Send.vue'
-  import MessageButton from '@/components/Buttons/Message.vue'
+  } from "@/../public/js/func.js"
+  import PostAdd from "@/components/Post/Add.vue"
+  import SendBtn from "@/components/Buttons/Send.vue"
+  import MessageButton from "@/components/Buttons/Message.vue"
   export default {
     data() {
       return {
         myId: this.$store.state.myId,
-        user: '',
-        photo: '',
+        user: "",
+        photo: "",
         userId: this.id,
-        posts: '',
+        posts: "",
         onlineStatus: false,
         active: true,
         statusEdit: false,
@@ -101,35 +102,45 @@
       Emoji: Emoji,
       uuidv4: uuidv4,
       profileImg() {
-        if (this.$store.state.edit) return
-        this.profileView = true
+        const settings = {
+          type: "photo",
+          title: "Аватара",
+          photo: this.photo,
+          ok: "Ок",
+        }
+        if(this.userId == this.myId) settings.cancel = 'Изменить'
+        
+        this.modalToggle(settings)
       },
       swipe(t) {
         if (t.startY - t.endY > 40) this.profileView = false
       },
       changeImg() {
         //console.log("changeImg");
-        this.photo = this.user.photo 
+        this.photo = this.user.photo
       },
       changeAvatar() {
         const settings = {
-          type: 'cropper',
-          title: 'Аватара',
-          ok: 'Изменить',
-          cancel: 'Отмена',
+          type: "cropper",
+          title: "Замена аватары",
+          ok: "Ок",
+          cancel: "Отмена",
         }
         this.modalToggle(settings)
       },
       profileUrl() {
         //console.log("profileUrl");
-        window.open(this.photo, '_blank')
+        window.open(this.photo, "_blank")
       },
       StatusEdit() {
-        if (this.$store.state.myId === this.user.userId && !this.$store.state.edit) {
+        if (
+          this.$store.state.myId === this.user.userId &&
+          !this.$store.state.edit
+        ) {
           this.$store.state.edit = true
           this.statusEdit = true
           this.$refs.status.contentEditable = true
-          this.$refs.status.classList.add('edit-block')
+          this.$refs.status.classList.add("edit-block")
           this.$refs.status.focus()
         }
       },
@@ -138,11 +149,11 @@
           text: this.$refs.status.textContent,
         })
         this.axios({
-            method: 'post',
-            url: '/account/status',
+            method: "post",
+            url: "/account/status",
             data: status,
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
+              "Content-Type": "application/x-www-form-urlencoded",
               Request: this.uuidv4(),
             },
           })
@@ -163,30 +174,30 @@
       StatusEditCancel() {
         this.$refs.status.contentEditable = false
         this.$refs.status.textContent = this.user.status
-        this.$refs.status.classList.remove('edit-block')
+        this.$refs.status.classList.remove("edit-block")
         this.$store.state.modal.toggle = false
         this.statusEdit = false
         this.$store.state.edit = false
       },
       StatusEditModal() {
         if (
-          (event.target.classList == 'emoji' &&
+          (event.target.classList == "emoji" &&
             event.target.parentNode == null) ||
-          event.target.id == 'modal'
+          event.target.id == "modal"
         )
           return
         if (this.statusEdit) {
           const settings = {
-            type: 'status_edit',
-            title: 'Изменения будут потеряны. Закрыть?',
-            ok: 'Нет',
-            cancel: 'Да',
+            type: "status_edit",
+            title: "Изменения будут потеряны. Закрыть?",
+            ok: "Нет",
+            cancel: "Да",
           }
           this.modalToggle(settings)
         }
       },
       fetchUser(id) {
-        this.emitter.emit('loaded', false)
+        this.emitter.emit("loaded", false)
         this.axios.get(`/users/${id}`).then((res) => {
           this.photo = res.data.photo256
           document.title = `${res.data.firstName} ${res.data.lastName} — Барыбинцы`
@@ -194,7 +205,7 @@
           this.userId = id
           this.$nextTick(() => {
             this.$store.state.loaded.content = true
-            this.emitter.emit('loaded', true)
+            this.emitter.emit("loaded", true)
           })
         })
       },
@@ -235,49 +246,56 @@
       //     )
       //   }
       // },
-
+  
       escapeHandler(e) {
-        if (e.key === 'Escape' && !this.$store.state.modal.toggle)
+        if (e.key === "Escape" && !this.$store.state.modal.toggle)
           this.profileView = false
       },
       OnMount() {
         // console.log('mounted')
-        document.addEventListener('keydown', this.escapeHandler)
-        this.emitter.on('modal-cancel-cropper', () => {
+        document.addEventListener("keydown", this.escapeHandler)
+        this.emitter.on("modal-cancel-cropper", () => {
           this.$store.state.modal.toggle = false
         })
+        this.emitter.on("modal-ok-photo", () => {
+          this.$store.state.modal.toggle = false
+        })
+        this.emitter.on("modal-cancel-photo", () => {
+          /*
+          this.$store.state.modal.toggle = false
+          setTimeout(() => this.changeAvatar(), 1000)
+          */
+          this.changeAvatar()
+        })
   
-        this.emitter.on('photo-update', (photo) => {
-          console.log(photo);
-          if (photo && this.userId == this.myId){
+        this.emitter.on("photo-update", (photo) => {
+          console.log(photo)
+          if (photo && this.userId == this.myId) {
             this.photo = photo
             this.user.photo = photo
           }
-            
         })
   
         //
         //this.fetchUser(this.id);
-        this.emitter.on('modal-cancel-status_edit', (val) => {
+        this.emitter.on("modal-cancel-status_edit", (val) => {
           if (val && this.statusEdit) this.StatusEditCancel()
         })
-        this.emitter.on('modal-ok-status_edit', (val) => {
+        this.emitter.on("modal-ok-status_edit", (val) => {
           if (val && this.statusEdit) this.StatusEditOk()
         })
-  
       },
       OnUnmount() {
         // console.log('unmounted')
-        document.removeEventListener('keydown', this.escapeHandler)
-        this.emitter.off('modal-cancel-cropper')
-        this.emitter.off('photo-update')
-
-        this.emitter.off('comment-delete')
-        this.emitter.off('modal-cancel-status_edit')
-        this.emitter.off('modal-ok-status_edit')
-        this.emitter.off('posts-loaded')
-
-      }
+        document.removeEventListener("keydown", this.escapeHandler)
+        this.emitter.off("modal-cancel-cropper")
+        this.emitter.off("photo-update")
+  
+        this.emitter.off("comment-delete")
+        this.emitter.off("modal-cancel-status_edit")
+        this.emitter.off("modal-ok-status_edit")
+        this.emitter.off("posts-loaded")
+      },
     },
     computed: {
       status() {
@@ -285,7 +303,7 @@
           if (!this.statusEdit) return this.Emoji(this.user.status)
           else return this.user.status
         }
-        return ''
+        return ""
       },
       timeName() {
         return timeName
@@ -337,10 +355,10 @@
         } else return null
       },
     },
-    name: 'Profile',
-    props: ['id'],
+    name: "Profile",
+    props: ["id"],
     beforeRouteUpdate(to, from, next) {
-      if (to.name === 'Profile') {
+      if (to.name === "Profile") {
         this.OnUnmount()
         this.fetchUser(to.params.id)
         this.$nextTick(() => {
@@ -352,7 +370,7 @@
     },
   
     beforeRouteEnter(to, from, next) {
-      const axios = require('axios')
+      const axios = require("axios")
       axios
         .get(`/users/${to.params.id}`)
         .then((res) => {
@@ -375,7 +393,7 @@
             vm.userId = to.params.id
             setTimeout(() => {
               vm.$store.state.loaded.content = true
-              vm.emitter.emit('loaded', true)
+              vm.emitter.emit("loaded", true)
             }, 0)
           })
         })
@@ -387,7 +405,7 @@
     },
   
     beforeRouteLeave() {
-      this.emitter.emit('loaded', false)
+      this.emitter.emit("loaded", false)
     },
     beforeUnmount() {
       this.OnUnmount()
@@ -395,20 +413,20 @@
     mounted() {
       this.OnMount()
       /*var modal = document.getElementById("myModal");
-                            
-                              // var img = document.getElementById("avatar");
-                              //var modalImg = document.getElementById("img01");
-                            
-                              modal.addEventListener(
-                                "mousedown",
-                                function(e) {
-                                  if (this.contains(e.target) && e.target.id === this.id) {
-                                    document.body.style.overflow = "";
-                                    modal.style.display = "none";
-                                  }
-                                },
-                                false
-                              );*/
+                                
+                                  // var img = document.getElementById("avatar");
+                                  //var modalImg = document.getElementById("img01");
+                                
+                                  modal.addEventListener(
+                                    "mousedown",
+                                    function(e) {
+                                      if (this.contains(e.target) && e.target.id === this.id) {
+                                        document.body.style.overflow = "";
+                                        modal.style.display = "none";
+                                      }
+                                    },
+                                    false
+                                  );*/
     },
     updated() {
       this.onlineStatus = this.online(this.user.lastVisit)
@@ -544,9 +562,6 @@
     margin: auto;
     margin-right: 0;
   }
-  
-  
-
   
   .zero-posts,
   #bday {

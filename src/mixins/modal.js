@@ -1,8 +1,15 @@
 export default {
   methods: {
     modalToggle(settings) {
-      this.$store.state.modal.settings = settings
-      this.$store.state.modal.toggle = true
+       var toggle = () => {
+        this.$store.state.modal.settings = settings
+        this.$store.state.modal.toggle = true
+      }
+      if (this.$store.state.modal.toggle) {
+        this.$store.state.modal.toggle = false
+        setTimeout(() => toggle(), 50)
+      } else toggle()
+      
     },
     goto(refName) {
       const element = this.$refs[refName]
@@ -17,7 +24,7 @@ export default {
           const settings = {
             type: `post_add-${type}`,
             title: `Текст должен быть не длиннее ${this.max[type]} символов!`,
-            ok: 'Ок',
+            ok: "Ок",
           }
           this.modalToggle(settings)
           return
